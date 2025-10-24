@@ -1,17 +1,16 @@
 import os
 from typing_extensions import Any
 from sqlite3 import Connection
+from dataclasses import dataclass
 
-from pydantic import BaseModel
 from pydantic_ai import Agent, RunContext
 from pydantic_ai.models.openai import OpenAIChatModel
 from pydantic_ai.providers.azure import AzureProvider
 
 from .prompts import DB_AGENT_PROMPT
 
-
-class AgentDeps(BaseModel):
-    model_config = {"arbitrary_types_allowed": True}
+@dataclass
+class AgentDeps:
     conn: Connection
 
 

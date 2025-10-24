@@ -24,6 +24,7 @@ def main():
             
             response = db_agent.run_sync(user_input, deps=agent_deps, message_history=message_history)
             print(response.output)
+            print()
             
             message_history = response.all_messages()
     
