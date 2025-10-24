@@ -1,6 +1,7 @@
-from dotenv import load_dotenv
-from src.db_agent import create_db_agent, AgentDeps
 import sqlite3
+from dotenv import load_dotenv
+
+from src.db_agent import create_db_agent, AgentDeps
 
 
 load_dotenv()
@@ -22,7 +23,7 @@ def main():
                 continue
             
             response = db_agent.run_sync(user_input, deps=agent_deps, message_history=message_history)
-            print(response.output.answer)
+            print(response.output)
             
             message_history = response.all_messages()
     

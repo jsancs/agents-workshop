@@ -1,20 +1,21 @@
+import os
 from typing_extensions import Any
-from pydantic import BaseModel, Field
+from sqlite3 import Connection
+
+from pydantic import BaseModel
 from pydantic_ai import Agent, RunContext
 from pydantic_ai.models.openai import OpenAIChatModel
 from pydantic_ai.providers.azure import AzureProvider
-import os
+
 from .prompts import DB_AGENT_PROMPT
-from sqlite3 import Connection
+
 
 class AgentDeps(BaseModel):
     model_config = {"arbitrary_types_allowed": True}
     conn: Connection
 
-class DatabaseResponse(BaseModel):
-    answer: str = Field(description="Natural language answer to the user's question")
 
-def create_db_agent() -> Agent[AgentDeps, DatabaseResponse]:
+def create_db_agent() -> Agent[AgentDeps]:
 
     azure_model = OpenAIChatModel(
         model_name='gpt-4.1-nano',
@@ -28,8 +29,8 @@ def create_db_agent() -> Agent[AgentDeps, DatabaseResponse]:
     db_agent = Agent(
         model=azure_model,
         instructions=DB_AGENT_PROMPT,
-        output_type=DatabaseResponse,
         deps_type=AgentDeps,
+        output_type=str,
     )
 
     @db_agent.tool()
@@ -67,7 +68,7 @@ def create_db_agent() -> Agent[AgentDeps, DatabaseResponse]:
         Execute a SQL query against the database.
         Returns the results of the query execution.
         """
-        print("🔧 [TOOL] execute_query")
+        print(f"🔧 [TOOL] execute_query -> {sql_query}")
         
         cursor = ctx.deps.conn.cursor()
         cursor.execute(sql_query)
