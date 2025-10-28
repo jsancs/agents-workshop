@@ -8,8 +8,8 @@ load_dotenv()
 
 def main():
     db_conn = sqlite3.connect('data/movie.sqlite', check_same_thread=False)
-    agent_deps = AgentDeps(conn=db_conn)
-    db_agent = create_db_agent()
+    agent_deps = ... # TODO: Crear las dependencias del agente
+    db_agent = ... # TODO: Crear el agente
     
     message_history = []
 
@@ -22,7 +22,7 @@ def main():
             if not user_input:
                 continue
             
-            response = db_agent.run_sync(user_input, deps=agent_deps, message_history=message_history)
+            response = ... # TODO: Ejecutar el agente
             print(response.output)
             print()
             

@@ -26,10 +26,7 @@ def create_db_agent() -> Agent[AgentDeps]:
     )
 
     db_agent = Agent(
-        model=azure_model,
-        instructions=DB_AGENT_PROMPT,
-        deps_type=AgentDeps,
-        output_type=str,
+        ... # TODO: Crear el agente
     )
 
     @db_agent.tool()
